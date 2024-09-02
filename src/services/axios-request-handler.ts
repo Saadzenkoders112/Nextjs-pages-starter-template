@@ -53,7 +53,9 @@ export const POST = async (
     })
       .then((response) => {
         if (response) {
+          console.log(response.data)
           resolve(response.data);
+          
         }
       })
       .catch((error: Error) => {

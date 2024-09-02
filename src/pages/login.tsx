@@ -1,5 +1,5 @@
 // React Imports
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 
 // View Import
 import LoginView from "../views/Authentication/Login";
@@ -11,7 +11,7 @@ const Login = () => {
   return (
     <Fragment>
       <Head>
-        <title>PROJECT_NAME | Login</title>
+        <title>Login</title>
       </Head>
       <LoginView />
     </Fragment>

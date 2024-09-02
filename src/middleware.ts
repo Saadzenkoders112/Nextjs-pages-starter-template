@@ -2,13 +2,13 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get("accessToken")?.value;
+  const token = req.cookies.get("projectToken")?.value;
 
   const { pathname } = req.nextUrl.clone();
 
-  if (pathname === "/") {
-    return NextResponse.redirect(new URL("/home", req.url));
-  }
+  // if (pathname === "/") {
+  //   return NextResponse.redirect(new URL("/home", req.url));
+  // }
   const publicRoutes = ["/login", "/signup"];
 
   const protectedRoutes = ["/"];

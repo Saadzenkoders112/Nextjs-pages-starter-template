@@ -6,7 +6,7 @@ export type USER_LOGIN_PAYLOAD = {
   /**
    * Email : User Email Address that will be used for login.
    */
-  email: string;
+  username: string;
 
   /**
    * Password : User Password that will be used for login.
