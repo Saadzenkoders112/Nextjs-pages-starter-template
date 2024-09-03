@@ -24,7 +24,13 @@ export const URL = {
   USER_LOGIN: 'https://dummyjson.com/auth/login',
 
   GET_USER: 'https://dummyjson.com/auth/getUser',
+
+   // ======================== Fetch Products ========================
+  FETCH_PRODUCTS: (limit: number ) => `https://dummyjson.com/products?limit=${limit}`,
+  FETCH_PRODUCT_BY_ID: (id: string ) => `https://dummyjson.com/products/${id}`,
+
   // ======================== File Upload ========================
 
   UPLOAD_PDF: (uid: string | string[]) => `https://dummyjson.com/S3/fileUpload/${uid}`,
 } as const;
+

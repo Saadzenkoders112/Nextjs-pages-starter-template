@@ -11,10 +11,10 @@ export function middleware(req: NextRequest) {
   // }
   const publicRoutes = ["/login", "/signup"];
 
-  const protectedRoutes = ["/"];
+  const protectedRoutes = ["/products"];
 
   if (token && publicRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/products", req.url));
   }
 
   if (!token && protectedRoutes.includes(pathname)) {
