@@ -20,7 +20,7 @@ export const fetchProducts = async (params: Params): Promise<FetchProductsRespon
     const response: any = await GET(URL.FETCH_PRODUCTS(params.limit), params.token);
     return response;
   } catch (error) {
-    throw error; 
+    throw new Error; 
   }
 };
 
@@ -29,7 +29,7 @@ export const fetchProductById = async (params: ProductIdParams): Promise<FetchPr
     const response: any = await GET(URL.FETCH_PRODUCT_BY_ID(params.id), params.token);
     return response;
   } catch (error) {
-    throw error; 
+    throw new Error; 
   }
 };
 

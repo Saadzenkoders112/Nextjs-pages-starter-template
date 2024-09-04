@@ -48,6 +48,11 @@ export interface Products {
   thumbnail: string
 
     /**
+   *  category: Product's category
+   */
+    category: string
+
+    /**
    *  discount: Product's discount
    */
     discountPercentage: string

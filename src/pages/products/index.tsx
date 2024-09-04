@@ -1,72 +1,60 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useFetchProducts } from "@/hooks/useQuery/useFetchProducts";
 import { getCookieFn } from "@/utils/storage.util";
 import Card from "@/components/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Products } from "@/types/Interfaces/product-interfaces/product.interface";
 import { GetServerSideProps } from "next";
 import { fetchProducts } from "@/services/react-query-client/getProducts/products.service";
+import { Params } from "@/types/Interfaces/product-interfaces/product-params.interface";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 interface HomePageProps {
-  products: Products[] | null;
-  error?: string;
+  initialProducts: Products[] | null;
 }
 
-export default function Home({ products, error }: HomePageProps) {
-  const [limit, setLimit] = useState<number>(5)
+export default function Home({ initialProducts }: HomePageProps) {
+  const [products, setProducts] = useState<Products[] | null>(initialProducts);
+  const [limit, setLimit] = useState<number>(5);
   const token = getCookieFn("projectToken");
-  if (!token) {
-    return <div>Error: No token found</div>; // Handle missing token
-  }
-  const params = { token, limit };
+
+  const params = { token: token || "", limit };
   const { data, isLoading } = useFetchProducts(params);
-  // console.log(data);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!products || products.length === 0) {
-    return <div>No products found</div>;
-  }
+  useEffect(() => {
+    if (data && data.products) {
+      setProducts(data.products);
+    }
+  }, [data, token]);
 
   return (
     <main className="p-2 overflow-x-hidden">
       <div>Products</div>
       <div className="flex gap-4 flex-wrap p-1 justify-center">
-        {products.map((product) => (
-          <Card key={product.id} product={product} />
-        ))}
+        {isLoading ? (
+          <div>Loading ...</div>
+        ) : (
+          products?.map((product) => (
+            <Card key={product.id} product={product} />
+          ))
+        )}
+      </div>
+      <div className="flex justify-center w-screen p-4">
+        <button
+          onClick={() => setLimit(limit + 5)}
+          className="p-1 w-[200px] border border-slate-200"
+        >
+          Load more ...
+        </button>
       </div>
     </main>
-    // <main className="p-2 overflow-x-hidden">
-    //   <div>Products</div>
-    //   <div className="flex gap-4 flex-wrap p-1 justify-center">
-    //     {isLoading ? (
-    //       <div className="w-screen h-screen flex justify-center items-center">
-    //         <div>Loading...</div>
-    //       </div>
-    //     ) : (
-    //       data?.products?.map((product) => <Card product={product} />)
-    //     )}
-    //   </div>
-    //   <div className="flex justify-center w-screen p-4">
-    //     <button onClick={() => setLimit(limit+5)} className="p-1 w-[200px] border border-slate-200">Load more ...</button>
-    //   </div>
-    // </main>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // const [limit, setLimit] = useState<number>(5)
-  // const token = getCookieFn("projectToken");
-  if (!token) {
-    return <div>Error: No token found</div>; // Handle missing token
-  }
-  const params = { token, limit };
+  const token = context.req.cookies.projectToken;
+  const limit = 5;
 
   if (!token) {
     return {
@@ -75,13 +63,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+  const params: Params = { token, limit };
 
   try {
-    const { data, isLoading } = useFetchProducts(params);
-
+    const response = await fetchProducts(params);
     return {
       props: {
-        products: data?.products || [],
+        initialProducts: response?.products || [],
       },
     };
   } catch (error) {
