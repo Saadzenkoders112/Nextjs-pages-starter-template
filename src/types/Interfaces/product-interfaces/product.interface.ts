@@ -9,10 +9,10 @@ export interface Products {
    */
   title: string;
 
-    /**
+  /**
    * brand: Product's brand
    */
-    brand: string;
+  brand: string;
 
   /**
    *  description: Product's description
@@ -24,13 +24,11 @@ export interface Products {
    */
   price: number;
 
-  
   /**
    *  discount: Product's discount
    */
   discount: number;
 
-  
   /**
    *  rating: Product's rating
    */
@@ -41,20 +39,19 @@ export interface Products {
    */
   images: string[];
 
-  
   /**
    *  thumbnail: Product's image
    */
-  thumbnail: string
+  thumbnail: string;
 
-    /**
+  /**
    *  category: Product's category
    */
-    category: string
+  category: string;
 
-    /**
+  /**
    *  discount: Product's discount
    */
-    discountPercentage: string
+  discountPercentage: number;
 
 }

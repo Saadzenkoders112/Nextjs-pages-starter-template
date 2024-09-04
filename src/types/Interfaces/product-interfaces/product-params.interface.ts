@@ -4,8 +4,13 @@ export interface Params {
    */
   token: string;
 
-    /**
+  /**
    * limit: Products Limit
    */
-  limit?: number
+  limit?: number;
+
+  /**
+   * category: Products category
+   */
+  category?: string | null;
 }

@@ -1,4 +1,6 @@
-import { fetchProductById } from "@/services/react-query-client/getProducts/products.service";
+import { addProduct } from "@/redux/slices/cart.slice";
+import { useAppDispatch } from "@/redux/store";
+import { fetchProductById } from "@/services/react-query-client/Product Services/products.service";
 import { ProductIdParams } from "@/types/Interfaces/product-interfaces/product-by-Id.interface";
 import { Products } from "@/types/Interfaces/product-interfaces/product.interface";
 import { GetServerSideProps } from "next";
@@ -10,8 +12,6 @@ interface ProductIdProps {
 }
 
 const ProductDetails: React.FC<ProductIdProps> = ({initialProduct}: ProductIdProps) => {
-
-  // const { data, isLoading } = useFetchProductById(params);
   return (
     <div className="w-screen h-screen flex justify-center mt-10">
       <div className="p-2 flex justify-center gap-2 w-[800px]">
@@ -37,6 +37,7 @@ const ProductDetails: React.FC<ProductIdProps> = ({initialProduct}: ProductIdPro
             <p>Category: {initialProduct?.category}</p>
             <p className="bg-red-500 text-white p-1 rounded-lg">Discount: {initialProduct?.discountPercentage}%</p>
           </div>
+          <button className="p-1 w-[100px] text-white bg-blue-500 font-semibold cursor-pointer">Add to cart</button>
         </div>
       </div>
     </div>

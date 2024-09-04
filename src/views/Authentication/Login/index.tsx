@@ -12,6 +12,8 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
+import { loginSuccess } from "@/redux/slices/authentication.slice";
+import { useAppDispatch } from "@/redux/store";
 
 interface ISignInViewProps {}
 
@@ -33,20 +35,6 @@ const SignInView: FC<ISignInViewProps> = () => {
   const { mutateAsync, isPending } = UserLoginMutationHook();
 
   const router = useRouter();
-
-  /**
-   * @description Handles the login process for the user
-   *
-   * @returns {void}
-   */
-  const handleLogin = async (): Promise<void> => {
-    const response = (await mutateAsync({
-      username: "emilys",
-      password: "emilyspass",
-    })) as Response;
-    setCookieClientSideFn("projectToken", response.token);
-  };
-
   const initialValues: FormData = {
     username: "",
     password: "",
@@ -67,10 +55,20 @@ const SignInView: FC<ISignInViewProps> = () => {
     resolver: yupResolver(loginSchema),
   });
 
+  // FOR USER STORE
+  const dispatch = useAppDispatch()
+
+  /**
+   * @description Handles the login process for the user
+   *
+   * @returns {void}
+   */
   const onSubmit = async (data: FormData) => {
     console.log(data);
     const response = (await mutateAsync(data)) as Response;
     setCookieClientSideFn("projectToken", response.token);
+    const {token, ...user} = response
+    dispatch(loginSuccess({user: user, token: response.token}))
     reset();
     router.push("/");
   };

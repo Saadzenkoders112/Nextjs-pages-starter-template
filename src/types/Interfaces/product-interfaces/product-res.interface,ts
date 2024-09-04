@@ -1,6 +1,0 @@
-export interface Response {
-      /**
-   * token: User token
-   */
-   response: 
-}

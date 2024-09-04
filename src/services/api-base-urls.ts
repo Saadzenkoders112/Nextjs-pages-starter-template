@@ -26,8 +26,10 @@ export const URL = {
   GET_USER: 'https://dummyjson.com/auth/getUser',
 
    // ======================== Fetch Products ========================
-  FETCH_PRODUCTS: (limit: number ) => `https://dummyjson.com/products?limit=${limit}`,
+  FETCH_PRODUCTS: (limit: number, category: string ) => category ? `https://dummyjson.com/products/category/${category}`:`https://dummyjson.com/products?limit=${limit}`,
   FETCH_PRODUCT_BY_ID: (id: string ) => `https://dummyjson.com/products/${id}`,
+  FETCH_PRODUCT_CATEGORIES: 'https://dummyjson.com/products/categories',
+  // FETCH_PRODUCT_BY_CATEGORY: (category: string) => `https://dummyjson.com/products/category/${category}`,
 
   // ======================== File Upload ========================
 
