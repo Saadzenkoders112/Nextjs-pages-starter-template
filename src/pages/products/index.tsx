@@ -1,5 +1,8 @@
 import { Inter } from "next/font/google";
-import { useFetchCategories, useFetchProducts } from "@/hooks/useQuery/useFetchProducts";
+import {
+  useFetchCategories,
+  useFetchProducts,
+} from "@/hooks/useQuery/useFetchProducts";
 import { getCookieFn } from "@/utils/storage.util";
 import Card from "@/components/card";
 import { useEffect, useState } from "react";
@@ -14,58 +17,78 @@ import { Categories } from "@/types/Interfaces/product-interfaces/product-catego
 
 interface HomePageProps {
   initialProducts: Products[] | null;
+  error: string | null;
 }
 
-export default function Home({ initialProducts }: HomePageProps) {
+export default function Home({ initialProducts, error }: HomePageProps) {
   const [products, setProducts] = useState<Products[] | null>(initialProducts);
   const [limit, setLimit] = useState<number>(5);
-  const [category, setCategory] = useState<string | null>(null)
+  const [category, setCategory] = useState<string | null>(null);
+  const [isError, setError] = useState<string | null>(error);
   const token = getCookieFn("projectToken");
 
   const params = { token: token || "", limit, category };
-  const { data, isLoading } = useFetchProducts(params);
+  const { data, isLoading, isError: queryError } = useFetchProducts(params);
 
   // QUERY TO FETCH ALL CATEGORIES
-  const {data: categories, isLoading: isCategoriesLoading} = useFetchCategories({token: token || ""})
+  const { data: categories } = useFetchCategories({ token: token || "" });
+  console.log(categories);
 
   useEffect(() => {
     if (data && data.products) {
       setProducts(data.products);
     }
   }, [data, token]);
-  if (!categories || categories?.categories?.length === 0) {
-    return <div>No items for this category!</div>
-  }
 
+  useEffect(() => {
+    if (queryError) {
+      setError("Error fetching products!");
+    } else if (data?.products && data?.products.length == 0) {
+      setError("No products for this item!");
+    } else {
+      setError(null);
+    }
+  }, []);
 
   return (
     <Layout title="Products">
       <main className="p-2 overflow-x-hidden">
-        <div className="text-2xl font-semibold p-2 text-center mb-10">Products</div>
+        <div className="text-2xl font-semibold p-2 text-center mb-10">
+          Products
+        </div>
         <div className="flex justify-end p-4">
-          <select onChange={(e) => setCategory(e.target.value)} className="cursor-pointer focus:outline-none focus:border focus:border-slate-300 rounded-lg">
+          <select
+            onChange={(e) => setCategory(e.target.value)}
+            className="cursor-pointer focus:outline-none focus:border focus:border-slate-300 rounded-lg"
+          >
             {categories?.map((category: Categories) => (
-              <option value={category.name}>{category.name}</option>
+              <option key={category.id} value={category.name}>{category.name}</option>
             ))}
           </select>
         </div>
         <div className="flex gap-4 flex-wrap p-1 justify-center">
-          {isLoading ? (
-            <div>Loading ...</div>
+          {isLoading && <div>Loading ...</div>}
+          {isError || isLoading ? (
+            <div>{error}</div>
           ) : (
             products?.map((product) => (
               <Card key={product.id} product={product} />
             ))
           )}
+          {!isError && !isLoading && products && products.length == 0 && (
+            <div>No items for this category</div>
+          )}
         </div>
-        <div className="flex justify-center w-screen p-4">
-          <button
-            onClick={() => setLimit(limit + 5)}
-            className="p-1 w-[200px] border border-slate-200"
-          >
-            Load more ...
-          </button>
-        </div>
+        {!(products?.length == 0) && (
+          <div className="flex justify-center w-screen p-4">
+            <button
+              onClick={() => setLimit(limit + 5)}
+              className="p-1 w-[200px] border border-slate-200"
+            >
+              Load more ...
+            </button>
+          </div>
+        )}
       </main>
     </Layout>
   );

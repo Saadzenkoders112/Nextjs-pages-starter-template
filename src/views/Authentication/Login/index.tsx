@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { loginSuccess } from "@/redux/slices/authentication.slice";
 import { useAppDispatch } from "@/redux/store";
+import { loginSchema } from "@/schema/login.schema";
 
 interface ISignInViewProps {}
 

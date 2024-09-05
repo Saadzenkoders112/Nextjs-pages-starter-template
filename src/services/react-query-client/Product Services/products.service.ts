@@ -5,6 +5,7 @@ import { ProductIdParams } from "@/types/Interfaces/product-interfaces/product-b
 import { FetchProductByIdResponse, FetchProductCategories, FetchProductsResponse } from "@/types/Interfaces/product-interfaces/product-response.interface";
   
 export const fetchProducts = async (params: Params): Promise<FetchProductsResponse> => {
+  console.log(params)
   try {   
     if (!params.limit || !params.category) {
         throw new Error("Limit is required and category is required")
@@ -26,6 +27,7 @@ export const fetchProductById = async (params: ProductIdParams): Promise<FetchPr
 };
 
 export const fetchProductCategories = async (params: Params): Promise<FetchProductCategories> => {
+  // console.log(params)
   try {    
     const response: any = await GET(URL.FETCH_PRODUCT_CATEGORIES, params.token);
     return response;
