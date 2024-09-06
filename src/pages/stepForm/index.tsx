@@ -1,96 +1,60 @@
-import React, { ReactNode } from "react";
-import {
-  Formik,
-  Field,
-  Form,
-  FormikConfig,
-  FormikValues,
-  FormikProps,
-} from "formik";
+import PersonalDetails from "@/components/formComponents/personalDetails";
+import WorkExprience from "@/components/formComponents/workExperience";
+import { Formik, Form } from "formik";
+import React, { useState } from "react";
+import Image from "next/image";
+import { personalDetailsSchema } from "@/schema/formSchema/personalDetailsSchema";
 
-type ChildrenType =
-  | ReactNode
-  | ((props: FormikProps<FormikValues>) => ReactNode);
-
-interface FormikStepperProps extends FormikConfig<FormikValues> {
-  children: ChildrenType;
+interface FormValues {
+  file: string;
+  full_name: string;
+  age: number;
+  service: string;
+  rank: string;
+  language: string;
 }
 
 const StepperForm = () => {
+  const [step, setStep] = useState<number>(0);
+
+  const initialValues: FormValues = {
+    file: "",
+    full_name: "",
+    age: 0,
+    service: "",
+    rank: "",
+    language: "",
+  };
+
+  const handleSubmit = (values: FormValues) => {
+    console.log(values);
+  };
+
+  
+
   return (
-    <div>
-      <FormikStepper
-        initialValues={{ email: "", password: "" }}
-        onSubmit={() => {
-          alert("Hello");
-        }}
-      >
-        {() => (
-          <>
-            <div className="flex flex-col gap-2">
-              <Field
-                className="border border-slate-300 rounded-lg p-2 text-sm"
-                type="email"
-                name="email"
-              />
-              <Field
-                className="border border-slate-300 rounded-lg p-2 text-sm"
-                type="password"
-                name="password"
-              />
-              {/* <div className="flex flex-col gap-2">
-                <label className="text-sm text-slate-500" htmlFor="email">
-                  Enter your email
-                </label>
-                <Field
-                  className="border border-slate-300 rounded-lg p-2 text-sm"
-                  type="email"
-                  name="email"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-sm text-slate-500" htmlFor="password">
-                  Enter your password
-                </label>
-                <Field
-                  className="border border-slate-300 rounded-lg p-2 text-sm"
-                  type="password"
-                  name="password"
-                />
-              </div> */}
+    <div className="overflow-x-hidden p-8 ">
+      {/* <div>
+        <Image src="./assets/images/stepper-logo-form.svg" alt="Logo" height={100} width={100}/>
+      </div> */}
+      <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={personalDetailsSchema}>
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            {step == 0 ? <PersonalDetails /> : ""}
+            {step == 1 ? <WorkExprience /> : ""}
+            <div className='flex justify-between p-2'>
+                <button className="button" onClick={() => setStep(step - 1)}>Previous</button>
+              {step < 1  ? (
+                <button className="button" onClick={() => setStep(step+1)}>Next</button>
+              ) : (
+                <button className="button" type="submit">Submit</button>
+              )}
             </div>
-            <div>
-              <button
-                className="p-1 rounded-lg bg-black text-white font-semibold"
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
-          </>
+          </Form>
         )}
-      </FormikStepper>
+      </Formik>
     </div>
   );
 };
-
-export function FormikStepper({ children, ...props }: FormikStepperProps) {
-    console.log(React.Children)
-//   const childrenArray = children?.map((child: any) => {
-//     console.log(child)
-//     return child
-//   });
-//   console.log(childrenArray)
-
-  return (
-    <Formik {...props}>
-      {(formikProps: FormikProps<FormikValues>) => (
-        <Form className="w-screen h-screen flex justify-center items-center">
-          {/* {childrenArray} */}
-        </Form>
-      )}
-    </Formik>
-  );
-}
 
 export default StepperForm;
