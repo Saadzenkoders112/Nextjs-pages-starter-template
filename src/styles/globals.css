@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .input_field {
-    @apply border border-slate-300 rounded-lg p-2 text-sm w-96
+    @apply border border-slate-300 rounded-lg p-2 text-sm w-auto
 }
 
 .button {
