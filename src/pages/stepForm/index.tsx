@@ -4,7 +4,7 @@ import { FormikProvider, Form, useFormik } from "formik";
 import React, { useState } from "react";
 import { personalDetailsSchema } from "@/schema/formSchema/personalDetailsSchema";
 import { Persist } from 'formik-persist'
-import { Career, CareerObj } from "@/types/Interfaces/form-interfaces/work-exprience.interface";
+import { Career } from "@/types/Interfaces/form-interfaces/work-exprience.interface";
 
 interface FormValues {
   file: string;
@@ -13,7 +13,7 @@ interface FormValues {
   service: string;
   rank: string;
   language: string;
-  career: CareerObj[]
+  career: Career[];
 }
 
 const StepperForm = () => {
@@ -26,7 +26,7 @@ const StepperForm = () => {
     service: "",
     rank: "",
     language: "",
-    career: []
+    career: [],
   };
 
   const handleSubmit = (values: FormValues) => {
@@ -77,7 +77,7 @@ const StepperForm = () => {
                 </button>
               )}
             </div>
-            {/* <Persist name="formik" /> */}
+            <Persist name="formik" />
           </Form>
         </FormikProvider>
       </div>
