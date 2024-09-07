@@ -35,6 +35,7 @@
     "formik": "^2.4.6",
     "formik-persist": "^1.1.0",
     "init": "^0.1.2",
+    "lucide": "^0.439.0",
     "lucide-react": "^0.309.0",
     "next": "14.0.4",
     "next-logger": "^3.0.2",

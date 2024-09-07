@@ -23,7 +23,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ errors }) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="text-2xlw font-semibold">Basic Information</div>
+      <div className="text-3xl font-semibold">Basic Information</div>
       <div className="flex flex-col gap-2">
         <p className="text-slate-500">Upload your resume</p>
         {/* FILE UPLOAD DIV */}
@@ -83,7 +83,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ errors }) => {
         Or Complete Your Profile <p className="text-green-500">Manually</p>
       </div>
       <div className="flex flex-wrap gap-4">
-        <div className="flex flex-col gap-2 w-96">
+        <div className="input_field_div">
           <label className="text-sm relative text-slate-500" htmlFor="password">
             Full name
             <p className="absolute top-0 right-0 rounded-full text-red-500">
@@ -100,7 +100,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ errors }) => {
             <p className="text-xs text-red-500">{errors.full_name}</p>
           ) : null}
         </div>
-        <div className="flex flex-col gap-2 w-96">
+        <div className="input_field_div">
           <label className="text-sm text-slate-500" htmlFor="password">
             Age (optional)
           </label>
@@ -114,7 +114,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ errors }) => {
             <p className="text-xs text-red-500">{errors.age}</p>
           ) : null}
         </div>
-        <div className="flex flex-col gap-2 w-96">
+        <div className="input_field_div">
           <label className="text-sm relative text-slate-500" htmlFor="password">
             Branch of service
             <p className="absolute top-0 right-0 rounded-full text-red-500 ">
@@ -139,7 +139,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ errors }) => {
         </div>
       </div>
       <div className="flex flex-wrap gap-4">
-        <div className="flex flex-col gap-2 w-96">
+        <div className="input_field_div">
           <label className="text-sm relative text-slate-500" htmlFor="password">
             Rank
             <p className="absolute top-0 right-0 rounded-full text-red-500 ">
@@ -162,7 +162,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ errors }) => {
             <p className="text-xs text-red-500">{errors.rank}</p>
           ) : null}
         </div>
-        <div className="flex flex-col gap-2 w-96">
+        <div className="input_field_div">
           <label className="text-sm relative text-slate-500" htmlFor="password">
             Languages
             <p className="absolute top-0 right-0 rounded-full text-red-500 ">

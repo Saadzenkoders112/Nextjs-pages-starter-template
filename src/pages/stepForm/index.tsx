@@ -3,7 +3,8 @@ import WorkExprience from "@/components/formComponents/workExperience";
 import { FormikProvider, Form, useFormik } from "formik";
 import React, { useState } from "react";
 import { personalDetailsSchema } from "@/schema/formSchema/personalDetailsSchema";
-import {Persist} from 'formik-persist'
+import { Persist } from 'formik-persist'
+import { Career, CareerObj } from "@/types/Interfaces/form-interfaces/work-exprience.interface";
 
 interface FormValues {
   file: string;
@@ -12,6 +13,7 @@ interface FormValues {
   service: string;
   rank: string;
   language: string;
+  career: CareerObj[]
 }
 
 const StepperForm = () => {
@@ -24,11 +26,13 @@ const StepperForm = () => {
     service: "",
     rank: "",
     language: "",
+    career: []
   };
 
   const handleSubmit = (values: FormValues) => {
     console.log(values);
   };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: personalDetailsSchema,
@@ -36,45 +40,47 @@ const StepperForm = () => {
   });
 
   return (
-    <div className="overflow-x-hidden p-8 ">
-      {/* <div>
+    <div className="w-screen flex flex-col items-center">
+      <div className="overflow-x-hidden p-12 w-4/5">
+        {/* <div>
         <Image src="./assets/images/stepper-logo-form.svg" alt="Logo" height={100} width={100}/>
       </div> */}
-      <FormikProvider value={formik}>
-        <Form onSubmit={formik.handleSubmit}>
-          {step == 0 ? <PersonalDetails errors={formik.errors} /> : ""}
-          {step == 1 ? <WorkExprience /> : ""}
-          <div className="flex justify-between p-2">
-            <button
-              type="button"
-              disabled={step == 0}
-              className={step == 0 ? "button opacity-40" : "button"}
-              onClick={() => setStep(step - 1)}
-            >
-              Previous
-            </button>
-            {step < 1 ? (
+        <FormikProvider value={formik}>
+          <Form onSubmit={formik.handleSubmit}>
+            {step == 0 ? <PersonalDetails errors={formik.errors} /> : ""}
+            {step == 1 ? <WorkExprience errors={formik.errors} /> : ""}
+            <div className="flex justify-between p-2">
               <button
-                className="button"
                 type="button"
-                onClick={async () => {
-                  const errors = await formik.validateForm();
-                  if (Object.keys(errors).length === 0 && formik.dirty) {
-                    setStep(step + 1);
-                  }
-                }}
+                disabled={step == 0}
+                className={step == 0 ? "button opacity-40" : "button"}
+                onClick={() => setStep(step - 1)}
               >
-                Next
+                Previous
               </button>
-            ) : (
-              <button className="button" type="submit">
-                Submit
-              </button>
-            )}
-          </div>
-          <Persist name="formik" />
-        </Form>
-      </FormikProvider>
+              {step < 1 ? (
+                <button
+                  className="button"
+                  type="button"
+                  onClick={async () => {
+                    const errors = await formik.validateForm();
+                    if (Object.keys(errors).length === 0 && formik.dirty) {
+                      setStep(step + 1);
+                    }
+                  }}
+                >
+                  Next
+                </button>
+              ) : (
+                <button className="button" type="submit">
+                  Submit
+                </button>
+              )}
+            </div>
+            {/* <Persist name="formik" /> */}
+          </Form>
+        </FormikProvider>
+      </div>
     </div>
   );
 };
