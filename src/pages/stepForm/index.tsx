@@ -5,6 +5,10 @@ import React, { useState } from "react";
 import { personalDetailsSchema } from "@/schema/formSchema/personalDetailsSchema";
 import { Persist } from 'formik-persist'
 import { Career } from "@/types/Interfaces/form-interfaces/work-exprience.interface";
+import { workExperienceSchema } from "@/schema/formSchema/workExperienceSchema";
+import Education from "@/components/formComponents/education";
+import { EducationInterface } from "@/types/Interfaces/form-interfaces/education.interface";
+import { educationSchema } from "@/schema/formSchema/educationSchema";
 
 interface FormValues {
   file: string;
@@ -14,6 +18,11 @@ interface FormValues {
   rank: string;
   language: string;
   career: Career[];
+  industry: string,
+  job_position: string,
+  job_position_level: string,
+  job_location: string,
+  education: EducationInterface[]
 }
 
 const StepperForm = () => {
@@ -27,21 +36,36 @@ const StepperForm = () => {
     rank: "",
     language: "",
     career: [],
+    industry: "",
+    job_position: "",
+    job_position_level: "",
+    job_location: "",
+    education: []
   };
 
   const handleSubmit = (values: FormValues) => {
     console.log(values);
   };
 
+  const handleSchema = () => {
+    if (step == 0) {
+      return personalDetailsSchema
+    } else if(step ==1 ){ 
+      return workExperienceSchema
+    } else {
+      return educationSchema
+    }
+  }
+
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: personalDetailsSchema,
+    validationSchema: handleSchema,
     onSubmit: handleSubmit,
   });
 
   return (
     <div className="w-screen flex flex-col items-center">
-      <div className="overflow-x-hidden p-12 w-4/5">
+      <div className="overflow-x-hidden p-12">
         {/* <div>
         <Image src="./assets/images/stepper-logo-form.svg" alt="Logo" height={100} width={100}/>
       </div> */}
@@ -49,6 +73,7 @@ const StepperForm = () => {
           <Form onSubmit={formik.handleSubmit}>
             {step == 0 ? <PersonalDetails errors={formik.errors} /> : ""}
             {step == 1 ? <WorkExprience errors={formik.errors} /> : ""}
+            {step == 2 ? <Education errors={formik.errors} /> : ""}
             <div className="flex justify-between p-2">
               <button
                 type="button"
@@ -58,12 +83,13 @@ const StepperForm = () => {
               >
                 Previous
               </button>
-              {step < 1 ? (
+              {step < 2 ? (
                 <button
                   className="button"
                   type="button"
                   onClick={async () => {
                     const errors = await formik.validateForm();
+                    console.log(errors)
                     if (Object.keys(errors).length === 0 && formik.dirty) {
                       setStep(step + 1);
                     }
@@ -77,7 +103,7 @@ const StepperForm = () => {
                 </button>
               )}
             </div>
-            <Persist name="formik" />
+            {/* <Persist name="formik" /> */}
           </Form>
         </FormikProvider>
       </div>
