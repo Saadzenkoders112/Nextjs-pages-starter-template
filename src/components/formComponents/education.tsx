@@ -1,6 +1,13 @@
 import { EducationInterface } from "@/types/Interfaces/form-interfaces/education.interface";
-import { FormikErrors, FormikValues, useFormikContext } from "formik";
-import React, { ChangeEvent, useState } from "react";
+import {
+  ErrorMessage,
+  Field,
+  FieldArray,
+  FormikErrors,
+  FormikValues,
+  useFormikContext,
+} from "formik";
+import React, { ChangeEvent, MouseEventHandler, useState } from "react";
 
 interface EducationProps {
   errors: FormikErrors<FormikValues>;
@@ -12,7 +19,6 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
     institution: "",
     field: "",
   });
-  const [newEducation, setNewEducation] = useState<string | null>("");
   const [educationError, setEducationError] = useState<string | null>(null);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [editIndex, setEditIndex] = useState<number | "">("");
@@ -21,8 +27,14 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
     institution: "",
     field: "",
   });
-  const [newEditEducation, setNewEditEducation] = useState<string | null>("");
 
+  //   CERTIFICATE STATES
+  const [certificateArray, setCertificateArray] = useState<[string] | [""]>([
+    "",
+  ]);
+  const [newCertificate, setNewCertificate] = useState<string>("");
+
+  //   FORMIK INITIAL VALUES
   const { values, setFieldValue } = useFormikContext<FormikValues>();
 
   const handleAddEducation = () => {
@@ -52,20 +64,6 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
     }));
   };
 
-  //   const handleEducationField = (e: ChangeEvent<HTMLInputElement>) => {
-  //     setNewEducation(e.target.value);
-  //   };
-
-  //   const handleAddSkill = () => {
-  //     if (newEducation?.trim()) {
-  //       setEducationObj((prev) => ({
-  //         ...prev,
-  //         skills: [...prev.skills, newEducation.trim()],
-  //       }));
-  //       setNewEducation("");
-  //     }
-  //   };
-
   const handleEditEducation = () => {
     if (
       !(
@@ -74,7 +72,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
         editEducationObj.field == ""
       )
     ) {
-      values.career[editIndex] = editEducationObj;
+      values.education[editIndex] = editEducationObj;
       setEducationError(null);
       setEditEducationObj({
         education_level: "",
@@ -94,20 +92,6 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
     }));
   };
 
-  //   const handleEditSkills = (e: ChangeEvent<HTMLInputElement>) => {
-  //     setNewEditEducation(e.target.value);
-  //   };
-
-  //   const handleEditSkill = () => {
-  //     if (newEditEducation?.trim()) {
-  //       setEditEducationObj((prev) => ({
-  //         ...prev,
-  //         skills: [...prev.skills, newEditEducation.trim()],
-  //       }));
-  //       setNewEducation("");
-  //     }
-  //   };
-
   // FUNCTIONS FOR HANDLING EDIT STATE
   const handleEdit = (index: number) => {
     setEditIndex(index);
@@ -119,8 +103,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
     setIsEdit(false);
   };
 
-  // FUNCTIONS TO REMOVE ADDED SKILLS
-
+  // FUNCTIONS TO REMOVE ADDED EDUCATION
   const removeEducation = (educationToRemove: EducationInterface) => {
     console.log(educationToRemove);
     const updatedEducation = values.education.filter(
@@ -129,12 +112,26 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
     setFieldValue("education", updatedEducation);
   };
 
+  //   console.log(values);
+  //   console.log(educationObj);
+
+  //   CERTIFICATE FUNCTIONS
+  const handleCertificateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewCertificate(e.target.value);
+  };
+
+  const handleAddCertificate = (e) => {
+    setCertificateArray((prev) => ({
+      ...prev,
+      certificatesArray: [...prev.certificateArray, newCertificate],
+    }));
+  };
+
   console.log(values)
-  console.log(educationObj)
 
   return (
     <div className="flex flex-col gap-2">
-      {/* WORK EXPERIENCE DIV */}
+      {/* EDUCATION DIV */}
       <div>
         <p className="text-3xl font-semibold pb-4">Education</p>
         <div className="border border-slate-300 p-4 rounded-lg ">
@@ -218,43 +215,6 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
                 placeholder="Enter field"
                 value={educationObj.field}
               />
-              {/* <div className="flex justify-between items-center">
-                <div className="p-1 flex gap-2 items-center flex-wrap">
-                  {educationObj.skills?.map((skill, index) => (
-                    <div
-                      className="flex gap-2 items-center p-1 text-green-500 border border-green-500 text-xs rounded-lg"
-                      key={index}
-                    >
-                      <p>{skill}</p>
-                      <svg
-                        onClick={() => removeAddSkill(skill)}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="lucide lucide-x cursor-pointer"
-                      >
-                        <path d="M18 6 6 18" />
-                        <path d="m6 6 12 12" />
-                      </svg>
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    onClick={handleAddSkill}
-                    className="button w-max"
-                  >
-                    Add skill
-                  </button>
-                </div>
-              </div> */}
             </div>
           </div>
           {educationError && (
@@ -284,7 +244,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
                         <input
                           onChange={handleEditChange}
                           type="text"
-                          name="education_field"
+                          name="education_level"
                           className="input_field"
                           placeholder="Enter level"
                           value={editEducationObj.education_level}
@@ -294,7 +254,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
                         <input
                           onChange={handleEditChange}
                           type="text"
-                          name="job_title"
+                          name="institution"
                           className="input_field"
                           placeholder="Enter name"
                           value={editEducationObj.institution}
@@ -304,7 +264,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
                         <input
                           onChange={handleEditChange}
                           type="text"
-                          name="skills"
+                          name="field"
                           className="input_field"
                           placeholder="Enter field"
                           value={editEducationObj.field}
@@ -380,6 +340,50 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
           </table>
         </div>
       )}
+
+      {/* CERTIFICATES DIV */}
+      <p className="text-3xl font-semibold pb-4">Certificates</p>
+      <div className="border border-slate-300 p-4 rounded-lg ">
+        <div className="flex flex-col gap-2 w-[500px]">
+          <p className="text-sm text-slate-500">Certificates</p>
+          <div>
+            <label className="text-sm text-slate-500" htmlFor="certificates">
+              Certificate
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                className="input_field"
+                type="text"
+                name="certificates"
+                placeholder="Enter certificate name"
+                onChange={handleCertificateChange}
+                value={newCertificate}
+              />
+              <div onClick={handleAddCertificate} className="text-white bg-green-500 border border-green-500 p-1 rounded-lg w-max flex gap-2 items-center w-max text-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-plus"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M12 5v14" />
+                </svg>
+                <p>Add certificate</p>
+              </div>
+            </div>
+            {errors.certificates ? (
+              <p className="text-xs text-red-500">{errors.certificates}</p>
+            ) : null}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

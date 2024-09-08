@@ -23,6 +23,7 @@ interface FormValues {
   job_position_level: string,
   job_location: string,
   education: EducationInterface[]
+  certificates: [string]
 }
 
 const StepperForm = () => {
@@ -40,7 +41,8 @@ const StepperForm = () => {
     job_position: "",
     job_position_level: "",
     job_location: "",
-    education: []
+    education: [],
+    certificates: [""]
   };
 
   const handleSubmit = (values: FormValues) => {

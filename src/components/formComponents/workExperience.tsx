@@ -482,7 +482,7 @@ const WorkExprience: React.FC<WorkExpriencePrrops> = ({ errors }) => {
               className="input_field"
               type="text"
               name="job_position"
-              placeholder="Enterj job position"
+              placeholder="Enter job position"
             />
             {errors.job_position && typeof errors.job_position === "string" ? (
               <p className="text-xs text-red-500">{errors.job_position}</p>
