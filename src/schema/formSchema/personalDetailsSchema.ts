@@ -1,21 +1,23 @@
 import * as Yup from "yup";
 
-const SUPPORTED_FORMATS = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+const SUPPORTED_FORMATS = ["png", "jpg", "jpeg"];
 
 // FILE SIZE OF 10MB
 const FILE_SIZE = 10 * 1024 * 1024;
 
+const fileSchema = Yup.object({
+  url: Yup.string().required("File is required"),
+  format: Yup.mixed().test("fileFormat", "Unsupported Format", (value) => {
+    if (typeof value == "string") {
+      const fileExtension = value.split(".")[1];
+      return SUPPORTED_FORMATS.includes(fileExtension ?? "");
+    }
+    return false;
+  }),
+});
+
 export const personalDetailsSchema = Yup.object().shape({
-  file: Yup.mixed()
-    .required("A file is required")
-    .test("fileFormat", "Unsupported Format", (value) => {
-      return (
-        value && value instanceof File && SUPPORTED_FORMATS.includes(value.type)
-      );
-    })
-    .test("fileSize", "File size must not exceed 10 MB", (value) => {
-      return value && value instanceof File && value.size <= FILE_SIZE;
-    }),
+  file: fileSchema,
   age: Yup.number()
     .min(18, "Age must be atleast 18")
     .max(100, "Age must not exceed 100"),

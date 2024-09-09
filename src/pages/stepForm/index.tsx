@@ -1,9 +1,9 @@
 import PersonalDetails from "@/components/formComponents/personalDetails";
 import WorkExprience from "@/components/formComponents/workExperience";
-import { FormikProvider, Form, useFormik } from "formik";
+import { FormikProvider, Form, useFormik, FormikHelpers } from "formik";
 import React, { useState } from "react";
 import { personalDetailsSchema } from "@/schema/formSchema/personalDetailsSchema";
-import { Persist } from 'formik-persist'
+import { Persist } from "formik-persist";
 import { Career } from "@/types/Interfaces/form-interfaces/work-exprience.interface";
 import { workExperienceSchema } from "@/schema/formSchema/workExperienceSchema";
 import Education from "@/components/formComponents/education";
@@ -11,26 +11,32 @@ import { EducationInterface } from "@/types/Interfaces/form-interfaces/education
 import { educationSchema } from "@/schema/formSchema/educationSchema";
 
 interface FormValues {
-  file: string;
+  file: {
+    url: string;
+    format: string;
+  };
   full_name: string;
   age: number;
   service: string;
   rank: string;
   language: string;
   career: Career[];
-  industry: string,
-  job_position: string,
-  job_position_level: string,
-  job_location: string,
-  education: EducationInterface[]
-  certificates: [string]
+  industry: string;
+  job_position: string;
+  job_position_level: string;
+  job_location: string;
+  education: EducationInterface[];
+  certificates: [string];
 }
 
 const StepperForm = () => {
   const [step, setStep] = useState<number>(0);
 
   const initialValues: FormValues = {
-    file: "",
+    file: {
+      url: "",
+      format: "",
+    },
     full_name: "",
     age: 0,
     service: "",
@@ -42,23 +48,24 @@ const StepperForm = () => {
     job_position_level: "",
     job_location: "",
     education: [],
-    certificates: [""]
+    certificates: [""],
   };
 
-  const handleSubmit = (values: FormValues, {resetForm}) => {
-    console.log(values);
-    resetForm()
+  const handleSubmit = (values: FormValues) => {
+    console.log("Form reset");
+    localStorage.removeItem("formik");
+    formik.resetForm();
   };
 
   const handleSchema = () => {
     if (step == 0) {
-      return personalDetailsSchema
-    } else if(step ==1 ){ 
-      return workExperienceSchema
+      return personalDetailsSchema;
+    } else if (step == 1) {
+      return workExperienceSchema;
     } else {
-      return educationSchema
+      return educationSchema;
     }
-  }
+  };
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -67,11 +74,8 @@ const StepperForm = () => {
   });
 
   return (
-    <div className="w-screen flex flex-col items-center">
+    <div className="w-screen h-screen flex flex-col items-center">
       <div className="overflow-x-hidden p-12">
-        {/* <div>
-        <Image src="./assets/images/stepper-logo-form.svg" alt="Logo" height={100} width={100}/>
-      </div> */}
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
             {step == 0 ? <PersonalDetails errors={formik.errors} /> : ""}
@@ -92,7 +96,7 @@ const StepperForm = () => {
                   type="button"
                   onClick={async () => {
                     const errors = await formik.validateForm();
-                    console.log(errors)
+                    console.log(errors);
                     if (Object.keys(errors).length === 0 && formik.dirty) {
                       setStep(step + 1);
                     }

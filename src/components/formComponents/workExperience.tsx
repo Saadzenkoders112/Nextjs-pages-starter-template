@@ -137,14 +137,11 @@ const WorkExprience: React.FC<WorkExpriencePrrops> = ({ errors }) => {
   };
 
   const removeCareer = (careerToRemove: Career) => {
-    console.log(careerToRemove);
     const updatedCareers = values.career.filter(
       (career) => career !== careerToRemove
     );
     setFieldValue("career", updatedCareers);
   };
-
-  console.log(values)
 
   return (
     <div className="flex flex-col gap-2">
