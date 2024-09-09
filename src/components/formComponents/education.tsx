@@ -7,7 +7,7 @@ import {
   FormikValues,
   useFormikContext,
 } from "formik";
-import React, { ChangeEvent, MouseEventHandler, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 interface EducationProps {
   errors: FormikErrors<FormikValues>;
@@ -29,9 +29,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
   });
 
   //   CERTIFICATE STATES
-  const [certificateArray, setCertificateArray] = useState<[string] | [""]>([
-    "",
-  ]);
+  const [certificateArray, setCertificateArray] = useState<[] | []>([]);
   const [newCertificate, setNewCertificate] = useState<string>("");
 
   //   FORMIK INITIAL VALUES
@@ -112,22 +110,38 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
     setFieldValue("education", updatedEducation);
   };
 
-  //   console.log(values);
-  //   console.log(educationObj);
-
   //   CERTIFICATE FUNCTIONS
   const handleCertificateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewCertificate(e.target.value);
+    setFieldValue("newCertificate", e.target.value);
   };
 
-  const handleAddCertificate = (e) => {
-    setCertificateArray((prev) => ({
-      ...prev,
-      certificatesArray: [...prev.certificateArray, newCertificate],
-    }));
+  const handleEditCertificateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFieldValue("editCertificate", e.target.value);
   };
 
-  console.log(values)
+  const handleAddCertificate = () => {
+    if (values.newCertificate.trim() === "") return;
+
+    setFieldValue("certificates", [
+      ...values.certificates,
+      values.newCertificate,
+    ]);
+    setFieldValue("newCertificate", "");
+  };
+
+  const handleEditCertificate =(certificateIndex: number) => {
+    // const newCertificateArray = values.certificates.filter((certificate: string) => certificate !== certificateToEdit
+    values.certificates[certificateIndex] = values.editCertificate
+    setFieldValue("editCertificate", "")
+    setIsEdit(false)
+  }
+
+  const removeCertificate =(certificateToRemove: string) => {
+    const newCertificateArray = values.certificates.filter((certificate: string) => certificate !== certificateToRemove)
+    setFieldValue("certificates", newCertificateArray)
+  }
+
+  console.log(values);
 
   return (
     <div className="flex flex-col gap-2">
@@ -345,7 +359,6 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
       <p className="text-3xl font-semibold pb-4">Certificates</p>
       <div className="border border-slate-300 p-4 rounded-lg ">
         <div className="flex flex-col gap-2 w-[500px]">
-          <p className="text-sm text-slate-500">Certificates</p>
           <div>
             <label className="text-sm text-slate-500" htmlFor="certificates">
               Certificate
@@ -354,12 +367,15 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
               <input
                 className="input_field"
                 type="text"
-                name="certificates"
+                name="values.newCertificate"
                 placeholder="Enter certificate name"
                 onChange={handleCertificateChange}
-                value={newCertificate}
+                value={values.newCertificate || ""}
               />
-              <div onClick={handleAddCertificate} className="text-white bg-green-500 border border-green-500 p-1 rounded-lg w-max flex gap-2 items-center w-max text-sm">
+              <div
+                onClick={handleAddCertificate}
+                className="text-white bg-green-500 border border-green-500 p-1 rounded-lg flex gap-2 items-center w-max text-sm"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -384,6 +400,98 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
           </div>
         </div>
       </div>
+      {values.certificates.length !== 0 && (
+              <div className="border border-slate-300 p-4 rounded-lg ">
+                <div className="p-2 border border-slate-300 rounded-lg w-full">
+                  <table className="table-auto text-left text-slate-500">
+                    <thead>
+                      <td>Certificate</td>
+                    </thead>
+                    <tbody>
+                      {values.certificates.map((certificate, index) => (
+                        <tr key={index}>
+                          {isEdit && editIndex == index ? (
+                            <>
+                              <td className="px-12 py-1">
+                                <input
+                                  className="input_field"
+                                  type="text"
+                                  name="values.editCertificate"
+                                  placeholder="Enter certificate name"
+                                  onChange={handleEditCertificateChange}
+                                  value={values.editCertificate || ""}
+                                />
+                              </td>
+                              <td className="px-16">
+                                <div className="flex gap-2 items-center">
+                                  <button
+                                    className="button"
+                                    onClick={() => handleEditCertificate(index)}
+                                  >
+                                    Save
+                                  </button>
+                                  <button
+                                    className="button"
+                                    onClick={handleCancelEdit}
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </td>
+                            </>
+                          ) : (
+                            <>
+                            <td className="p-16  py-1">{`Certificate ${index+1}`}</td>
+                              <td className="px-16 py-1">{certificate}</td>
+                              <td className="px-16">
+                                <div className="flex items-center gap-4">
+                                  <svg
+                                    onClick={() => handleEdit(index)}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="lucide lucide-pencil cursor-pointer"
+                                  >
+                                    <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                                    <path d="m15 5 4 4" />
+                                  </svg>
+                                  <svg
+                                    onClick={() => removeCertificate(certificate)}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="lucide lucide-trash-2 cursor-pointer"
+                                  >
+                                    <path d="M3 6h18" />
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                    <line x1="10" x2="10" y1="11" y2="17" />
+                                    <line x1="14" x2="14" y1="11" y2="17" />
+                                  </svg>
+                                </div>
+                              </td>
+                            </>
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+      )}
+
     </div>
   );
 };

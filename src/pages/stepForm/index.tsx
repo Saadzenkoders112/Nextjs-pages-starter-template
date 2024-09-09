@@ -45,8 +45,9 @@ const StepperForm = () => {
     certificates: [""]
   };
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = (values: FormValues, {resetForm}) => {
     console.log(values);
+    resetForm()
   };
 
   const handleSchema = () => {
@@ -105,7 +106,7 @@ const StepperForm = () => {
                 </button>
               )}
             </div>
-            {/* <Persist name="formik" /> */}
+            <Persist name="formik" />
           </Form>
         </FormikProvider>
       </div>
