@@ -5,7 +5,6 @@ import { FC, Fragment } from "react";
 import { UserLoginMutationHook } from "@/services/react-query-client/auth/user-login";
 
 // Custom Component Imports
-import { Button } from "@/components/ui/button";
 import { setCookieClientSideFn } from "@/utils/storage.util";
 
 import { useForm } from "react-hook-form";
@@ -14,7 +13,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { loginSuccess } from "@/redux/slices/authentication.slice";
 import { useAppDispatch } from "@/redux/store";
-import { loginSchema } from "@/schema/login.schema";
 
 interface ISignInViewProps {}
 

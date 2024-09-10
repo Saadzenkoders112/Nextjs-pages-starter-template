@@ -1,8 +1,5 @@
 import { EducationInterface } from "@/types/Interfaces/form-interfaces/education.interface";
 import {
-  ErrorMessage,
-  Field,
-  FieldArray,
   FormikErrors,
   FormikValues,
   useFormikContext,
@@ -27,10 +24,6 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
     institution: "",
     field: "",
   });
-
-  //   CERTIFICATE STATES
-  const [certificateArray, setCertificateArray] = useState<[] | []>([]);
-  const [newCertificate, setNewCertificate] = useState<string>("");
 
   //   FORMIK INITIAL VALUES
   const { values, setFieldValue } = useFormikContext<FormikValues>();

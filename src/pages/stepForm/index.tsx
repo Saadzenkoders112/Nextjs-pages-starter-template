@@ -1,6 +1,6 @@
 import PersonalDetails from "@/components/formComponents/personalDetails";
 import WorkExprience from "@/components/formComponents/workExperience";
-import { FormikProvider, Form, useFormik, FormikHelpers } from "formik";
+import { FormikProvider, Form, useFormik } from "formik";
 import React, { useState } from "react";
 import { personalDetailsSchema } from "@/schema/formSchema/personalDetailsSchema";
 import { Persist } from "formik-persist";
@@ -51,7 +51,7 @@ const StepperForm = () => {
     certificates: [""],
   };
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = () => {
     console.log("Form reset");
     localStorage.removeItem("formik");
     formik.resetForm();

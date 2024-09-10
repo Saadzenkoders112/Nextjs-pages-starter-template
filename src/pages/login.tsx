@@ -1,5 +1,5 @@
 // React Imports
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 
 // View Import
 import LoginView from "../views/Authentication/Login";

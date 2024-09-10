@@ -1,5 +1,3 @@
-import { addProduct } from "@/redux/slices/cart.slice";
-import { useAppDispatch } from "@/redux/store";
 import { fetchProductById } from "@/services/react-query-client/Product Services/products.service";
 import { ProductIdParams } from "@/types/Interfaces/product-interfaces/product-by-Id.interface";
 import { Products } from "@/types/Interfaces/product-interfaces/product.interface";

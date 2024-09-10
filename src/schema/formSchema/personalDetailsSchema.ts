@@ -2,9 +2,6 @@ import * as Yup from "yup";
 
 const SUPPORTED_FORMATS = ["png", "jpg", "jpeg"];
 
-// FILE SIZE OF 10MB
-const FILE_SIZE = 10 * 1024 * 1024;
-
 const fileSchema = Yup.object({
   url: Yup.string().required("File is required"),
   format: Yup.mixed().test("fileFormat", "Unsupported Format", (value) => {

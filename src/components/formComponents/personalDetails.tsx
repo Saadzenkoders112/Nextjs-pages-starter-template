@@ -2,7 +2,7 @@ import React from "react";
 import { Field, FormikErrors, FormikValues, useFormikContext } from "formik";
 import { Options, Languages, Rank } from "@/Data/personalDetailsData";
 
-import { CldUploadButton, CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 
 interface PersonalDetailsProps {

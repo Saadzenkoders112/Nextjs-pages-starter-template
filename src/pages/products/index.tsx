@@ -1,4 +1,3 @@
-import { Inter } from "next/font/google";
 import {
   useFetchCategories,
   useFetchProducts,
@@ -12,9 +11,6 @@ import { fetchProducts } from "@/services/react-query-client/Product Services/pr
 import { Params } from "@/types/Interfaces/product-interfaces/product-params.interface";
 import Layout from "@/components/layout/layout";
 import { Categories } from "@/types/Interfaces/product-interfaces/product-categories.interface";
-
-// const inter = Inter({ subsets: ["latin"] });
-
 interface HomePageProps {
   initialProducts: Products[] | null;
   error: string | null;
