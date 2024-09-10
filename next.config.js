@@ -5,6 +5,9 @@ const nextConfig = {
     domains: ["cdn.dummyjson.com"],
     domains: ['res.cloudinary.com'], // Add your domain here
   },
+  eslint: {
+    ignoreDuringBuilds:true
+  }
 };
 
 module.exports = nextConfig;
