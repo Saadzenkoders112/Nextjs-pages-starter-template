@@ -57,7 +57,7 @@ export default function Home({ initialProducts, error }: HomePageProps) {
             onChange={(e) => setCategory(e.target.value)}
             className="cursor-pointer focus:outline-none focus:border focus:border-slate-300 rounded-lg"
           >
-            {categories?.map((category: Categories) => (
+            {categories?.categories?.map((category: Categories) => (
               <option key={category.id} value={category.name}>{category.name}</option>
             ))}
           </select>

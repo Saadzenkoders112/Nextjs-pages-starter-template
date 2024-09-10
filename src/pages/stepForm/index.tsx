@@ -9,12 +9,10 @@ import { workExperienceSchema } from "@/schema/formSchema/workExperienceSchema";
 import Education from "@/components/formComponents/education";
 import { EducationInterface } from "@/types/Interfaces/form-interfaces/education.interface";
 import { educationSchema } from "@/schema/formSchema/educationSchema";
+import { FileInterface } from "@/types/Interfaces/form-interfaces/personalDetails.interface";
 
 interface FormValues {
-  file: {
-    url: string;
-    format: string;
-  };
+  file: FileInterface;
   full_name: string;
   age: number;
   service: string;
@@ -26,7 +24,7 @@ interface FormValues {
   job_position_level: string;
   job_location: string;
   education: EducationInterface[];
-  certificates: [string];
+  certificates: [];
 }
 
 const StepperForm = () => {
@@ -48,7 +46,7 @@ const StepperForm = () => {
     job_position_level: "",
     job_location: "",
     education: [],
-    certificates: [""],
+    certificates: [],
   };
 
   const handleSubmit = (values: FormValues) => {
@@ -113,7 +111,7 @@ const StepperForm = () => {
                 </button>
               )}
             </div>
-            <Persist name="formik" />
+            {/* <Persist name="formik" /> */}
           </Form>
         </FormikProvider>
       </div>

@@ -11,7 +11,6 @@ interface PersonalDetailsProps {
 
 const PersonalDetails: React.FC<PersonalDetailsProps> = ({ errors }) => {
   const { values, setFieldValue } = useFormikContext<FormikValues>();
-
   return (
     <div className="flex flex-col gap-2">
       <div className="text-3xl font-semibold">Basic Information</div>
@@ -111,14 +110,16 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ errors }) => {
             </div>
           )}
         </div>
-        {(errors.file?.format || errors.file?.url) &&
-        (typeof errors.file?.format || typeof errors.file?.format) ===
-          "string" ? (
-          <div>
-            <p className="text-xs text-red-500">{errors.file.url}</p>
-            <p className="text-xs text-red-500">{errors.file.format}</p>
-          </div>
-        ) : null}
+        {errors.file && typeof errors.file === 'object' && !Array.isArray(errors.file) && (
+          <>
+            {typeof errors.file.url == "string" && (
+              <p className="text-xs text-red-500">{errors.file.url}</p>
+            )}
+            {typeof errors.file.format == "string" && (
+              <p className="text-xs text-red-500">{errors.file.format}</p>
+            )}
+          </>
+        )}
       </div>
       <div className="text-slate-500 flex flex-wrap gap-2 md:flex-col md:items-center">
         Or Complete Your Profile <p className="text-green-500">Manually</p>

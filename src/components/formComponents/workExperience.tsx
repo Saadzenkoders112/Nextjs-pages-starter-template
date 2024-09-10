@@ -138,7 +138,7 @@ const WorkExprience: React.FC<WorkExpriencePrrops> = ({ errors }) => {
 
   const removeCareer = (careerToRemove: Career) => {
     const updatedCareers = values.career.filter(
-      (career) => career !== careerToRemove
+      (career: object) => career !== careerToRemove
     );
     setFieldValue("career", updatedCareers);
   };
@@ -269,7 +269,7 @@ const WorkExprience: React.FC<WorkExpriencePrrops> = ({ errors }) => {
             </div>
           </div>
           {careerError && <p className="text-xs text-red-500">{careerError}</p>}
-          {errors.career && (
+          {errors.career && typeof errors.career == 'string' && (
             <p className="text-xs text-red-500">{errors.career}</p>
           )}
         </div>
@@ -286,7 +286,7 @@ const WorkExprience: React.FC<WorkExpriencePrrops> = ({ errors }) => {
               </tr>
             </thead>
             <tbody>
-              {values.career.map((career, index) => (
+              {values.career.map((career: Career, index:number) => (
                 <tr key={index}>
                   {isEdit && editIndex === index ? (
                     <>

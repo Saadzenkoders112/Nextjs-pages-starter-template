@@ -7,12 +7,10 @@ import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 // Slice Import
 import authenticationSlice from "../slices/authentication.slice";
 import themeSlice from "../slices/theme.slice";
-import cartSlice from "../slices/cart.slice";
 
 const reducers = combineReducers({
   authenticationSlice,
   themeSlice,
-  cartSlice
 });
 
 /**

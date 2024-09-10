@@ -28,6 +28,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
   //   FORMIK INITIAL VALUES
   const { values, setFieldValue } = useFormikContext<FormikValues>();
 
+  console.log(errors)
   const handleAddEducation = () => {
     if (
       !(
@@ -113,13 +114,18 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
 
   const handleAddCertificate = () => {
     if (values.newCertificate.trim() === "") return;
+    console.log(values.newCertificate)
 
-    setFieldValue("certificates", [
-      ...values.certificates,
-      values.newCertificate,
-    ]);
+    console.log(typeof values.certificates, typeof values.newCertificate)
+    // setFieldValue("certificates", [
+    //   ...values.certificates,
+    //   values.newCertificate,
+    // ]);
+    values.certificates.push(values.newCertificate)
     setFieldValue("newCertificate", "");
+
   };
+  console.log(values.certificates.length)
 
   const handleEditCertificate = (certificateIndex: number) => {
     // const newCertificateArray = values.certificates.filter((certificate: string) => certificate !== certificateToEdit
@@ -226,9 +232,9 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
           {educationError && (
             <p className="text-xs text-red-500">{educationError}</p>
           )}
-          {/* {errors.education  && (
+          {errors.education  == "string" && (
             <p className="text-xs text-red-500">{errors.education}</p>
-          )} */}
+          )}
         </div>
       </div>
       {values.education.length !== 0 && (
@@ -242,7 +248,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
               </tr>
             </thead>
             <tbody>
-              {values.education.map((education, index) => (
+              {values.education.map((education:EducationInterface, index:number) => (
                 <tr key={index}>
                   {isEdit && editIndex === index ? (
                     <>
@@ -387,7 +393,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
               </div>
             </div>
             {errors.certificates ? (
-              <p className="text-xs text-red-500">{errors.certificates}</p>
+              <p className="text-xs text-red-500">{errors.certificates.toString()}</p>
             ) : null}
           </div>
         </div>
@@ -401,7 +407,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
               </thead>
               <tbody>
                 {values.certificates.map(
-                  (certificate, index) =>
+                  (certificate:string, index:number) =>
                     certificate !== "" && (
                       <tr key={index}>
                         {isEdit && editIndex == index ? (
@@ -435,7 +441,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
                           </>
                         ) : (
                           <>
-                            <td className="p-16  py-1">{`Certificate ${index}`}</td>
+                            <td className="p-16  py-1">{`Certificate ${index+1}`}</td>
                             <td className="px-16 py-1">{certificate}</td>
                             <td className="px-16">
                               <div className="flex items-center gap-4">
