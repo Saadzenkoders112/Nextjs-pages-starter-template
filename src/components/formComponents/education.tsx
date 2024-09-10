@@ -232,7 +232,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
           {educationError && (
             <p className="text-xs text-red-500">{educationError}</p>
           )}
-          {errors.education  == "string" && (
+          {errors.education == "object" && (
             <p className="text-xs text-red-500">{errors.education}</p>
           )}
         </div>
