@@ -51,10 +51,11 @@ const StepperForm = () => {
     certificates: [""],
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (values: FormValues) => {
     console.log("Form reset");
+    formik.values = initialValues;
+    console.log(values)
     localStorage.removeItem("formik");
-    formik.resetForm();
   };
 
   const handleSchema = () => {
@@ -70,7 +71,9 @@ const StepperForm = () => {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: handleSchema,
-    onSubmit: handleSubmit,
+    onSubmit: (values) => {
+      console.log(values)
+    },
   });
 
   return (
