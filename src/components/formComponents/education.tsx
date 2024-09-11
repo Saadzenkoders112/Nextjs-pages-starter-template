@@ -1,9 +1,5 @@
 import { EducationInterface } from "@/types/Interfaces/form-interfaces/education.interface";
-import {
-  FormikErrors,
-  FormikValues,
-  useFormikContext,
-} from "formik";
+import { FormikErrors, FormikValues, useFormikContext } from "formik";
 import React, { ChangeEvent, useState } from "react";
 
 interface EducationProps {
@@ -28,7 +24,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
   //   FORMIK INITIAL VALUES
   const { values, setFieldValue } = useFormikContext<FormikValues>();
 
-  console.log(errors)
+  console.log(errors);
   const handleAddEducation = () => {
     if (
       !(
@@ -114,18 +110,17 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
 
   const handleAddCertificate = () => {
     if (values.newCertificate.trim() === "") return;
-    console.log(values.newCertificate)
+    console.log(values.newCertificate);
 
-    console.log(typeof values.certificates, typeof values.newCertificate)
+    console.log(typeof values.certificates, typeof values.newCertificate);
     // setFieldValue("certificates", [
     //   ...values.certificates,
     //   values.newCertificate,
     // ]);
-    values.certificates.push(values.newCertificate)
+    values.certificates.push(values.newCertificate);
     setFieldValue("newCertificate", "");
-
   };
-  console.log(values.certificates.length)
+  console.log(values.certificates.length);
 
   const handleEditCertificate = (certificateIndex: number) => {
     // const newCertificateArray = values.certificates.filter((certificate: string) => certificate !== certificateToEdit
@@ -248,106 +243,111 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
               </tr>
             </thead>
             <tbody>
-              {values.education.map((education:EducationInterface, index:number) => (
-                <tr key={index}>
-                  {isEdit && editIndex === index ? (
-                    <>
-                      <td className="px-12 py-1">
-                        <input
-                          onChange={handleEditChange}
-                          type="text"
-                          name="education_level"
-                          className="input_field"
-                          placeholder="Enter level"
-                          value={editEducationObj.education_level}
-                        />
-                      </td>
-                      <td className="px-12 py-1">
-                        <input
-                          onChange={handleEditChange}
-                          type="text"
-                          name="institution"
-                          className="input_field"
-                          placeholder="Enter name"
-                          value={editEducationObj.institution}
-                        />
-                      </td>
-                      <td className="px-12 py-1">
-                        <input
-                          onChange={handleEditChange}
-                          type="text"
-                          name="field"
-                          className="input_field"
-                          placeholder="Enter field"
-                          value={editEducationObj.field}
-                        />
-                      </td>
-                      <td className="px-16">
-                        <div className="flex gap-2 items-center">
-                          <button
-                            className="button"
-                            onClick={handleEditEducation}
-                          >
-                            Save
-                          </button>
-                          <button className="button" onClick={handleCancelEdit}>
-                            Cancel
-                          </button>
-                        </div>
-                      </td>
-                    </>
-                  ) : (
-                    <>
-                      <td className="px-16 py-1">
-                        {education.education_level}
-                      </td>
-                      <td className="px-16 py-1">{education.institution}</td>
-                      <td className="px-16 py-1 flex gap-2 flex-wrap">
-                        {education.field}
-                      </td>
-                      <td className="px-16">
-                        <div className="flex items-center gap-4">
-                          <svg
-                            onClick={() => handleEdit(index)}
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="lucide lucide-pencil cursor-pointer"
-                          >
-                            <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-                            <path d="m15 5 4 4" />
-                          </svg>
-                          <svg
-                            onClick={() => removeEducation(education)}
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="lucide lucide-trash-2 cursor-pointer"
-                          >
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                            <line x1="10" x2="10" y1="11" y2="17" />
-                            <line x1="14" x2="14" y1="11" y2="17" />
-                          </svg>
-                        </div>
-                      </td>
-                    </>
-                  )}
-                </tr>
-              ))}
+              {values.education.map(
+                (education: EducationInterface, index: number) => (
+                  <tr key={index}>
+                    {isEdit && editIndex === index ? (
+                      <>
+                        <td className="px-12 py-1">
+                          <input
+                            onChange={handleEditChange}
+                            type="text"
+                            name="education_level"
+                            className="input_field"
+                            placeholder="Enter level"
+                            value={editEducationObj.education_level}
+                          />
+                        </td>
+                        <td className="px-12 py-1">
+                          <input
+                            onChange={handleEditChange}
+                            type="text"
+                            name="institution"
+                            className="input_field"
+                            placeholder="Enter name"
+                            value={editEducationObj.institution}
+                          />
+                        </td>
+                        <td className="px-12 py-1">
+                          <input
+                            onChange={handleEditChange}
+                            type="text"
+                            name="field"
+                            className="input_field"
+                            placeholder="Enter field"
+                            value={editEducationObj.field}
+                          />
+                        </td>
+                        <td className="px-16">
+                          <div className="flex gap-2 items-center">
+                            <button
+                              className="button"
+                              onClick={handleEditEducation}
+                            >
+                              Save
+                            </button>
+                            <button
+                              className="button"
+                              onClick={handleCancelEdit}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td className="px-16 py-1">
+                          {education.education_level}
+                        </td>
+                        <td className="px-16 py-1">{education.institution}</td>
+                        <td className="px-16 py-1 flex gap-2 flex-wrap">
+                          {education.field}
+                        </td>
+                        <td className="px-16">
+                          <div className="flex items-center gap-4">
+                            <svg
+                              onClick={() => handleEdit(index)}
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="lucide lucide-pencil cursor-pointer"
+                            >
+                              <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                              <path d="m15 5 4 4" />
+                            </svg>
+                            <svg
+                              onClick={() => removeEducation(education)}
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="lucide lucide-trash-2 cursor-pointer"
+                            >
+                              <path d="M3 6h18" />
+                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                              <line x1="10" x2="10" y1="11" y2="17" />
+                              <line x1="14" x2="14" y1="11" y2="17" />
+                            </svg>
+                          </div>
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>
@@ -393,7 +393,9 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
               </div>
             </div>
             {errors.certificates ? (
-              <p className="text-xs text-red-500">{errors.certificates.toString()}</p>
+              <p className="text-xs text-red-500">
+                {errors.certificates.toString()}
+              </p>
             ) : null}
           </div>
         </div>
@@ -407,7 +409,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
               </thead>
               <tbody>
                 {values.certificates.map(
-                  (certificate:string, index:number) =>
+                  (certificate: string, index: number) =>
                     certificate !== "" && (
                       <tr key={index}>
                         {isEdit && editIndex == index ? (
@@ -441,7 +443,7 @@ const Education: React.FC<EducationProps> = ({ errors }) => {
                           </>
                         ) : (
                           <>
-                            <td className="p-16  py-1">{`Certificate ${index+1}`}</td>
+                            <td className="p-16  py-1">{`Certificate ${index + 1}`}</td>
                             <td className="px-16 py-1">{certificate}</td>
                             <td className="px-16">
                               <div className="flex items-center gap-4">

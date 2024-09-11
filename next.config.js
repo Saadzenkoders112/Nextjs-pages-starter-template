@@ -4,16 +4,19 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'cdn.dummyjson.com',
-        pathname: '/products/images/**',
+        protocol: "https",
+        hostname: "cdn.dummyjson.com",
+        pathname: "/products/images/**",
       },
     ],
-    domains: ['res.cloudinary.com'], // Add your domain here
+    domains: ["res.cloudinary.com"], // Add your domain here
   },
   eslint: {
-    ignoreDuringBuilds:true
-  }
+    ignoreDuringBuilds: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
